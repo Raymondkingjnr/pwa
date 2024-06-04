@@ -1,4 +1,6 @@
 "use client";
+import { generateToken, messaging } from "@/firebase";
+import { onMessage } from "firebase/messaging";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -16,6 +18,13 @@ export default function Home() {
     } else {
       router.push("/");
     }
+  }, []);
+
+  useEffect(() => {
+    generateToken();
+    onMessage(messaging, (payload) => {
+      alert(payload?.notification?.body);
+    });
   }, []);
 
   return (
